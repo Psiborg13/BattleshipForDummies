@@ -25,7 +25,7 @@ public class Battleship
 		placeShip(3, 3);
 		placeShip(3, 4);
 		placeShip(2, 5);
-		//placeEnemyShips();
+		placeEnemyShips();
 	}
 
 	public static void printBoard()
