@@ -128,4 +128,11 @@ public class Battleship
 			printBoard();
 		}
 	}
+
+	public static void placeEnemyShips()
+	{
+		for (int symbol = 6; symbol < 11; symbol++) {
+			
+		}
+	}
 }
