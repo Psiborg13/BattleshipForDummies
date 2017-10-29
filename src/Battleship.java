@@ -10,14 +10,20 @@ import java.util.Scanner;
 public class Battleship 
 {
 	final static String BLANK = "~";
-	static String[][] board = new String[10][10];
+	static String[][] hiddenBoard = new String[10][10];
+	static String[][] visibleBoard = new String[10][10];
 	int p1ShipsSunk = 0;
 	int p2ShipsSunk = 0;
 	public static void main(String[] args)
 	{	
-		for (int i = 0; i < board.length; i++) {
-			for (int j = 0; j < board.length; j++) {
-				board[i][j] = BLANK;
+		for (int i = 0; i < hiddenBoard.length; i++) {
+			for (int j = 0; j < hiddenBoard.length; j++) {
+				hiddenBoard[i][j] = BLANK;
+			}
+		}
+		for (int i = 0; i < visibleBoard.length; i++) {
+			for (int j = 0; j < visibleBoard.length; j++) {
+				visibleBoard[i][j] = BLANK;
 			}
 		}
 		placeShip(5, 1);
@@ -30,9 +36,9 @@ public class Battleship
 
 	public static void printBoard()
 	{
-		for (int i = 0; i < board.length; i++) {
-			for (int j = 0; j < board.length; j++) {
-				System.out.print(board[i][j]+" ");
+		for (int i = 0; i < hiddenBoard.length; i++) {
+			for (int j = 0; j < hiddenBoard.length; j++) {
+				System.out.print(hiddenBoard[i][j]+" ");
 			}
 			System.out.println();
 		}
@@ -75,14 +81,14 @@ public class Battleship
 				}
 				boolean placed = true;
 				for (int i = y; i < y+length; i++) {
-					if(!board[x][i].equals(BLANK))
+					if(!hiddenBoard[x][i].equals(BLANK))
 					{
 						placed = false;
 						i = 11;
 					}
 					else
 					{
-						board[x][i] = ""+symbol;
+						hiddenBoard[x][i] = ""+symbol;
 					}
 				}
 				if(placed)
@@ -110,14 +116,14 @@ public class Battleship
 				}
 				boolean placed = true;
 				for (int i = x; i < x+length; i++) {
-					if(!board[i][y].equals(BLANK))
+					if(!hiddenBoard[i][y].equals(BLANK))
 					{
 						placed = false;
 						i = 11;
 					}
 					else
 					{
-						board[i][y] = ""+symbol;
+						hiddenBoard[i][y] = ""+symbol;
 					}
 				}
 				if(placed)
