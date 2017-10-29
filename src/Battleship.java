@@ -85,15 +85,15 @@ public class Battleship
 				{
 					System.out.println("Please select the row for the"+
 							" beginning of your ship of length "+length+
-							": It must be between 0 inclusive and "
-							+"10 exclusive.");
+							": It must be between 0 and "
+							+"9 inclusive.");
 					x = scan.nextInt();
 				}
 				while(!(min <= y && max >= y))
 				{
 					System.out.println("Please select the column for the"+
 							" beginning of your ship of length "+length+
-							": It must be between "+min+" inclusive and "
+							": It must be between "+min+" and "
 							+max+" inclusive.");
 					y = scan.nextInt();
 				}
@@ -127,7 +127,7 @@ public class Battleship
 				{
 					System.out.println("Please select the row for the"+
 							" beginning of your ship of length "+length+
-							": It must be between "+min+" inclusive and "
+							": It must be between "+min+" and "
 							+max+" inclusive.");
 					x = scan.nextInt();
 				}
@@ -135,8 +135,8 @@ public class Battleship
 				{
 					System.out.println("Please select the column for the"+
 							" beginning of your ship of length "+length+
-							": It must be between 0 inclusive and "
-							+"10 exclusive.");
+							": It must be between 0 and "
+							+"9 inclusive.");
 					y = scan.nextInt();
 				}
 				boolean placed = true;
