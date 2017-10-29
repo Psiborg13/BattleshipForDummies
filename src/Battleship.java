@@ -53,7 +53,7 @@ public class Battleship
 			{
 				System.out.println("Do you want this ship to be "+
 						"horizontal or vertical?");
-				direction = scan.next();
+				direction = scan.nextLine();
 			}
 			if(direction.equals("horizontal"))
 			{
