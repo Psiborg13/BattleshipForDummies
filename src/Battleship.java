@@ -6,6 +6,7 @@
 	5	Destroyer	2*/
 
 import java.util.Scanner;
+import java.util.Random;
 
 public class Battleship 
 {
@@ -26,15 +27,32 @@ public class Battleship
 				visibleBoard[i][j] = BLANK;
 			}
 		}
-		placeShip(5, 1);
-		placeShip(4, 2);
-		placeShip(3, 3);
-		placeShip(3, 4);
-		placeShip(2, 5);
-		placeEnemyShips();
+		placeShip(5, "1");
+		placeShip(4, "2");
+		placeShip(3, "3");
+		placeShip(3, "4");
+		placeShip(2, "5");
+		placeEnemyShip(5, "6");
+		placeEnemyShip(4, "7");
+		placeEnemyShip(3, "8");
+		placeEnemyShip(3, "9");
+		placeEnemyShip(2, "A");
+		//for testing
+		System.out.println();
+		printHiddenBoard();
 	}
-
-	public static void printBoard()
+	
+	public static void printVisibleBoard()
+	{
+		for (int i = 0; i < hiddenBoard.length; i++) {
+			for (int j = 0; j < hiddenBoard.length; j++) {
+				System.out.print(hiddenBoard[i][j]+" ");
+			}
+			System.out.println();
+		}
+	}
+	
+	public static void printHiddenBoard()
 	{
 		for (int i = 0; i < hiddenBoard.length; i++) {
 			for (int j = 0; j < hiddenBoard.length; j++) {
@@ -44,7 +62,7 @@ public class Battleship
 		}
 	}
 
-	public static void placeShip(int length, int symbol)
+	public static void placeShip(int length, String symbol)
 	{
 		Scanner scan = new Scanner(System.in);
 		boolean placing = true;
@@ -80,19 +98,26 @@ public class Battleship
 					y = scan.nextInt();
 				}
 				boolean placed = true;
+				String[][] tempBoard = new String[10][10];
+				for (int i = 0; i < tempBoard.length; i++) {
+					for (int j = 0; j < tempBoard.length; j++) {
+						tempBoard[i][j] = hiddenBoard[i][j];
+					}
+				}
 				for (int i = y; i < y+length; i++) {
-					if(!hiddenBoard[x][i].equals(BLANK))
+					if(!tempBoard[x][i].equals(BLANK))
 					{
 						placed = false;
 						i = 11;
 					}
 					else
 					{
-						hiddenBoard[x][i] = ""+symbol;
+						tempBoard[x][i] = ""+symbol;
 					}
 				}
 				if(placed)
 				{
+					hiddenBoard = tempBoard;
 					placing = false;
 				}
 			}
@@ -115,30 +140,99 @@ public class Battleship
 					y = scan.nextInt();
 				}
 				boolean placed = true;
+				String[][] tempBoard = new String[10][10];
+				for (int i = 0; i < tempBoard.length; i++) {
+					for (int j = 0; j < tempBoard.length; j++) {
+						tempBoard[i][j] = hiddenBoard[i][j];
+					}
+				}
 				for (int i = x; i < x+length; i++) {
-					if(!hiddenBoard[i][y].equals(BLANK))
+					if(!tempBoard[i][y].equals(BLANK))
 					{
 						placed = false;
 						i = 11;
 					}
 					else
 					{
-						hiddenBoard[i][y] = ""+symbol;
+						tempBoard[i][y] = ""+symbol;
 					}
 				}
 				if(placed)
 				{
+					hiddenBoard = tempBoard;
 					placing = false;
 				}
 			}
-			printBoard();
+			printHiddenBoard();
 		}
 	}
 
-	public static void placeEnemyShips()
+	public static void placeEnemyShip(int length, String symbol)
 	{
-		for (int symbol = 6; symbol < 11; symbol++) {
-			
+		Random rand = new Random();
+		boolean placing = true;
+		while(placing){
+			int x = -1;
+			int y = -1;
+			int min = 0;
+			int max = 10 - length;
+			boolean direction = rand.nextBoolean();
+			if(direction)
+			{
+				x = rand.nextInt(10);
+				y = rand.nextInt(max + 1 - min)+min;
+				boolean placed = true;
+				String[][] tempBoard = new String[10][10];
+				for (int i = 0; i < tempBoard.length; i++) {
+					for (int j = 0; j < tempBoard.length; j++) {
+						tempBoard[i][j] = hiddenBoard[i][j];
+					}
+				}
+				for (int i = y; i < y+length; i++) {
+					if(!tempBoard[x][i].equals(BLANK))
+					{
+						placed = false;
+						i = 11;
+					}
+					else
+					{
+						tempBoard[x][i] = ""+symbol;
+					}
+				}
+				if(placed)
+				{
+					hiddenBoard = tempBoard;
+					placing = false;
+				}
+			}
+			else
+			{
+				x = rand.nextInt(max + 1 - min)+min;
+				y = rand.nextInt(10);
+				boolean placed = true;
+				String[][] tempBoard = new String[10][10];
+				for (int i = 0; i < tempBoard.length; i++) {
+					for (int j = 0; j < tempBoard.length; j++) {
+						tempBoard[i][j] = hiddenBoard[i][j];
+					}
+				}
+				for (int i = x; i < x+length; i++) {
+					if(!tempBoard[i][y].equals(BLANK))
+					{
+						placed = false;
+						i = 11;
+					}
+					else
+					{
+						tempBoard[i][y] = ""+symbol;
+					}
+				}
+				if(placed)
+				{
+					hiddenBoard = tempBoard;
+					placing = false;
+				}
+			}
 		}
 	}
 }
