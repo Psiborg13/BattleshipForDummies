@@ -11,20 +11,32 @@ import java.util.Random;
 public class Battleship 
 {
 	final static String BLANK = "~";
-	static String[][] hiddenBoard = new String[10][10];
-	static String[][] visibleBoard = new String[10][10];
+	static String[][] playerShips = new String[10][10];
+	static String[][] playerBoard = new String[10][10];
+	static String[][] enemyShips = new String[10][10];
+	static String[][] enemyBoard = new String[10][10];
 	int p1ShipsSunk = 0;
 	int p2ShipsSunk = 0;
 	public static void main(String[] args)
 	{	
-		for (int i = 0; i < hiddenBoard.length; i++) {
-			for (int j = 0; j < hiddenBoard.length; j++) {
-				hiddenBoard[i][j] = BLANK;
+		for (int i = 0; i < playerShips.length; i++) {
+			for (int j = 0; j < playerShips.length; j++) {
+				playerShips[i][j] = BLANK;
 			}
 		}
-		for (int i = 0; i < visibleBoard.length; i++) {
-			for (int j = 0; j < visibleBoard.length; j++) {
-				visibleBoard[i][j] = BLANK;
+		for (int i = 0; i < playerBoard.length; i++) {
+			for (int j = 0; j < playerBoard.length; j++) {
+				playerBoard[i][j] = BLANK;
+			}
+		}
+		for (int i = 0; i < enemyShips.length; i++) {
+			for (int j = 0; j < enemyShips.length; j++) {
+				enemyShips[i][j] = BLANK;
+			}
+		}
+		for (int i = 0; i < enemyBoard.length; i++) {
+			for (int j = 0; j < enemyBoard.length; j++) {
+				enemyBoard[i][j] = BLANK;
 			}
 		}
 		placeShip(5, "1");
@@ -32,31 +44,21 @@ public class Battleship
 		placeShip(3, "3");
 		placeShip(3, "4");
 		placeShip(2, "5");
-		placeEnemyShip(5, "6");
-		placeEnemyShip(4, "7");
-		placeEnemyShip(3, "8");
-		placeEnemyShip(3, "9");
-		placeEnemyShip(2, "A");
+		placeEnemyShip(5, "1");
+		placeEnemyShip(4, "2");
+		placeEnemyShip(3, "3");
+		placeEnemyShip(3, "4");
+		placeEnemyShip(2, "5");
 		//for testing
 		System.out.println();
-		printHiddenBoard();
+		printBoard(enemyShips);
 	}
 	
-	public static void printVisibleBoard()
+	public static void printBoard(String[][] board)
 	{
-		for (int i = 0; i < hiddenBoard.length; i++) {
-			for (int j = 0; j < hiddenBoard.length; j++) {
-				System.out.print(hiddenBoard[i][j]+" ");
-			}
-			System.out.println();
-		}
-	}
-	
-	public static void printHiddenBoard()
-	{
-		for (int i = 0; i < hiddenBoard.length; i++) {
-			for (int j = 0; j < hiddenBoard.length; j++) {
-				System.out.print(hiddenBoard[i][j]+" ");
+		for (int i = 0; i < board.length; i++) {
+			for (int j = 0; j < board.length; j++) {
+				System.out.print(board[i][j]+" ");
 			}
 			System.out.println();
 		}
@@ -101,7 +103,7 @@ public class Battleship
 				String[][] tempBoard = new String[10][10];
 				for (int i = 0; i < tempBoard.length; i++) {
 					for (int j = 0; j < tempBoard.length; j++) {
-						tempBoard[i][j] = hiddenBoard[i][j];
+						tempBoard[i][j] = playerShips[i][j];
 					}
 				}
 				for (int i = y; i < y+length; i++) {
@@ -117,7 +119,7 @@ public class Battleship
 				}
 				if(placed)
 				{
-					hiddenBoard = tempBoard;
+					playerShips = tempBoard;
 					placing = false;
 				}
 			}
@@ -143,7 +145,7 @@ public class Battleship
 				String[][] tempBoard = new String[10][10];
 				for (int i = 0; i < tempBoard.length; i++) {
 					for (int j = 0; j < tempBoard.length; j++) {
-						tempBoard[i][j] = hiddenBoard[i][j];
+						tempBoard[i][j] = playerShips[i][j];
 					}
 				}
 				for (int i = x; i < x+length; i++) {
@@ -159,11 +161,11 @@ public class Battleship
 				}
 				if(placed)
 				{
-					hiddenBoard = tempBoard;
+					playerShips = tempBoard;
 					placing = false;
 				}
 			}
-			printHiddenBoard();
+			printBoard(playerShips);
 		}
 	}
 
@@ -185,7 +187,7 @@ public class Battleship
 				String[][] tempBoard = new String[10][10];
 				for (int i = 0; i < tempBoard.length; i++) {
 					for (int j = 0; j < tempBoard.length; j++) {
-						tempBoard[i][j] = hiddenBoard[i][j];
+						tempBoard[i][j] = enemyShips[i][j];
 					}
 				}
 				for (int i = y; i < y+length; i++) {
@@ -201,7 +203,7 @@ public class Battleship
 				}
 				if(placed)
 				{
-					hiddenBoard = tempBoard;
+					enemyShips = tempBoard;
 					placing = false;
 				}
 			}
@@ -213,7 +215,7 @@ public class Battleship
 				String[][] tempBoard = new String[10][10];
 				for (int i = 0; i < tempBoard.length; i++) {
 					for (int j = 0; j < tempBoard.length; j++) {
-						tempBoard[i][j] = hiddenBoard[i][j];
+						tempBoard[i][j] = enemyShips[i][j];
 					}
 				}
 				for (int i = x; i < x+length; i++) {
@@ -229,7 +231,7 @@ public class Battleship
 				}
 				if(placed)
 				{
-					hiddenBoard = tempBoard;
+					enemyShips = tempBoard;
 					placing = false;
 				}
 			}
