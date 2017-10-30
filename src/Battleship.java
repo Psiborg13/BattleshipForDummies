@@ -11,12 +11,15 @@ import java.util.Random;
 public class Battleship 
 {
 	final static String BLANK = "~";
+	final static String HIT = "!";
+	final static String MISS = "X";
 	static String[][] playerShips = new String[10][10];
 	static String[][] playerBoard = new String[10][10];
 	static String[][] enemyShips = new String[10][10];
 	static String[][] enemyBoard = new String[10][10];
-	int p1ShipsSunk = 0;
-	int p2ShipsSunk = 0;
+	static int playerShipsSunk = 0;
+	static int enemyShipsSunk = 0;
+
 	public static void main(String[] args)
 	{	
 		for (int i = 0; i < playerShips.length; i++) {
@@ -49,11 +52,31 @@ public class Battleship
 		placeEnemyShip(3, "3");
 		placeEnemyShip(3, "4");
 		placeEnemyShip(2, "5");
-		//for testing
 		System.out.println();
-		printBoard(enemyShips);
+		while(!(playerShipsSunk == 5 || enemyShipsSunk == 5))
+		{
+			System.out.println("Your Turn:");
+			printBoard(playerBoard);
+			playerShot();
+			enemyShipsSunk = shipsSunk(enemyShips);
+			if(enemyShipsSunk!=5)
+			{
+				System.out.println("\nEnemy Turn:");
+				enemyShot();
+				playerShipsSunk = shipsSunk(playerShips);
+			}
+			System.out.println();
+		}
+		if(playerShipsSunk == 5)
+		{
+			System.out.println("The enemy sank your battleship!");
+		}
+		else
+		{
+			System.out.println("You win! You sank their battleship!");
+		}
 	}
-	
+
 	public static void printBoard(String[][] board)
 	{
 		for (int i = 0; i < board.length; i++) {
@@ -236,5 +259,101 @@ public class Battleship
 				}
 			}
 		}
+	}
+
+	public static void playerShot()
+	{
+		Scanner scan = new Scanner(System.in);
+		boolean takingShot = true;
+		int x = -1;
+		int y = -1;
+		while(takingShot)
+		{
+			x = -1;
+			y = -1;
+			System.out.println();
+			while(x < 0 || x > 10)
+			{
+				System.out.println("Enter the row for your shot: 0 through 9");
+				x = scan.nextInt();
+			}
+			while(y < 0 || y > 10)
+			{
+				System.out.println("Enter the column for your shot: 0 through 9");
+				y = scan.nextInt();
+			}
+			if(playerBoard[x][y].equals(BLANK))
+			{
+				if(!enemyShips[x][y].equals(BLANK)&&!enemyShips[x][y].equals(HIT)
+						&&!enemyShips[x][y].equals(MISS))
+				{
+					playerBoard[x][y] = HIT;
+					enemyShips[x][y] = HIT;
+					System.out.println("It's a hit!");
+				}
+				else
+				{
+					playerBoard[x][y] = MISS;
+					enemyShips[x][y] = MISS;
+					System.out.println("It's a miss!");
+				}
+				printBoard(playerBoard);
+				takingShot = false;
+			}
+		}
+	}
+
+	public static void enemyShot()
+	{
+		Random rand = new Random();
+		boolean takingShot = true;
+		int x = -1;
+		int y = -1;
+		while(takingShot)
+		{
+			x = rand.nextInt(10);
+			y = rand.nextInt(10);
+			if(enemyBoard[x][y].equals(BLANK))
+			{
+				if(!playerShips[x][y].equals(BLANK)&&!playerShips[x][y].equals(HIT)
+						&&!playerShips[x][y].equals(MISS))
+				{
+					enemyBoard[x][y] = HIT;
+					playerShips[x][y] = HIT;
+					System.out.println("It's a hit!");
+				}
+				else
+				{
+					enemyBoard[x][y] = MISS;
+					playerShips[x][y] = MISS;
+					System.out.println("It's a miss!");
+				}
+				printBoard(enemyBoard);
+				takingShot = false;
+			}
+		}
+	}
+
+	public static int shipsSunk(String[][] board)
+	{
+		int shipsSunk = 0;
+		for (int a = 1; a < 6; a++) {
+			boolean shipOnBoard = false;
+			for (int i = 0; i < board.length; i++) {
+				for (int j = 0; j < board.length; j++) {
+					if(board[i][j].equals(a+""))
+					{
+						shipOnBoard = true;
+						i = 11;
+						j = 11;
+					}
+				}
+			}
+			if(!shipOnBoard)
+			{
+				shipsSunk++;
+			}
+		}
+		return shipsSunk;
 	}
 }
