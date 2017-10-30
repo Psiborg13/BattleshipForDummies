@@ -311,8 +311,53 @@ public class Battleship
 		int y = -1;
 		while(takingShot)
 		{
-			x = rand.nextInt(10);
-			y = rand.nextInt(10);
+			boolean hasTarget = false;
+			for(int i = 0; i < 10; i++)
+			{
+				for(int j = 0; j < 10; j++)
+				{
+					if(enemyBoard[i][j].equals(HIT))
+					{
+						if(i>0&&enemyBoard[i-1][j].equals(BLANK))
+						{
+							hasTarget = true;
+							x = i-1;
+							y = j;
+							i = 11;
+							j = 11;
+						}
+						else if(j>0&&enemyBoard[i][j-1].equals(BLANK))
+						{
+							hasTarget = true;
+							x = i;
+							y = j-1;
+							i = 11;
+							j = 11;
+						}
+						else if(i<9&&enemyBoard[i+1][j].equals(BLANK))
+						{
+							hasTarget = true;
+							x = i+1;
+							y = j;
+							i = 11;
+							j = 11;
+						}
+						else if(j<9&&enemyBoard[i][j+1].equals(BLANK))
+						{	
+							hasTarget = true;
+							x = i;
+							y = j+1;
+							i = 11;
+							j = 11;
+						}
+					}
+				}
+			}
+			if(!hasTarget)
+			{
+				x = rand.nextInt(10);
+				y = rand.nextInt(10);
+			}
 			if(enemyBoard[x][y].equals(BLANK))
 			{
 				if(!playerShips[x][y].equals(BLANK)&&!playerShips[x][y].equals(HIT)
